@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  <h1 class="">Simplex Maximize</h1>
+  <div class="container">
+    <h3 class="text-primary">Ingrese los siguientes Datos</h3>
+    <div class="row align-items-start">
+      <div class="col col-4">
+        <label for="col-4" class="form-label">Ingrese el numero de variables</label>
+        <input type="number" class="form-control" name="variables" id="variables" aria-describedby="helpId" placeholder="" min="0" />
+
+        <label for="col-4" class="form-label">Ingrese el numero de Restricciones</label>
+        <input type="number" class="form-control" name="restricciones" id="restricciones" aria-describedby="helpId" placeholder="" min="0" />
+        <br />
+        <div class="d-grid">
+          <button type="button" name="btngenerar" id="btngenerar" class="btn btn-primary">Generar</button>
+        </div>
+        <div class="row" id="nuevoscampos"></div>
+        <div class="row" id="nuevasrestricciones"></div>
+      </div>
+
+      <div class="col">
+        <p>Resultados</p>
+      </div>
+    </div>
+    <script>
+      const btngenerar = document.getElementById('btngenerar')
+      
+      btngenerar.addEventListener('click', () => {
+        const variables = document.getElementById('variables').value
+        const restricciones = document.getElementById('restricciones').value
+        CrearCampos(variables)
+        CrearRestricciones(variables, restricciones)
+      })
+      
+      function CrearCampos(variables) {
+        const nuevoscampos = document.getElementById('nuevoscampos')
+        const funcionobjetivo = document.createElement('h5')
+        funcionobjetivo.innerHTML = 'Funcion Objetivo'
+        funcionobjetivo.setAttribute('class', 'mt-2 text-success border-top')
+        nuevoscampos.appendChild(funcionobjetivo)
+        for (var i = 0; i < variables; i++) {
+          const filas = document.createElement('div')
+          filas.setAttribute('class', 'col')
+          nuevoscampos.appendChild(filas)
+          const camposvariables = document.createElement('input')
+          camposvariables.setAttribute('type', 'number')
+          camposvariables.setAttribute('class', 'form-control mt-3')
+          camposvariables.setAttribute('placeholder', 'x'+(i+1))
+          filas.appendChild(camposvariables)
+        }
+      }
+      
+      function CrearRestricciones(variables, restricciones) {
+        const nuevasrestricciones = document.getElementById('nuevasrestricciones')
+        const titlerestric = document.createElement('h5')
+        titlerestric.innerHTML = 'Restricciones'
+        titlerestric.setAttribute('class', 'mt-2 border-top')
+        nuevasrestricciones.appendChild(titlerestric)
+
+        for (var i = 0; i < restricciones; i++) {
+          const filasrow = document.createElement('div')
+          filasrow.setAttribute('class', 'row mt-2')
+          nuevasrestricciones.appendChild(filasrow)
+          for (var j = 0; j <= variables; j++) {
+            const filascol = document.createElement('div')
+            filascol.setAttribute('class', 'col')
+            filasrow.appendChild(filascol)
+            const cvariables = document.createElement('input')
+            cvariables.setAttribute('type', 'number')
+            cvariables.setAttribute('class', 'form-control')
+            if(j<variables){
+                cvariables.setAttribute('placeholder', 'x'+(j+1))
+            }else{
+                cvariables.setAttribute('placeholder', 'lim')
+            }           
+            filascol.appendChild(cvariables)
+          }
+        }
+      }
+    </script>
+  </div>
+{% endblock %}
